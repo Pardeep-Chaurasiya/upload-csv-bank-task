@@ -7,9 +7,9 @@ const cors = require("cors");
 const hdfcRoute = require("./routes/bankRoute");
 
 const app = express();
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "public")));
-app.use(cors());
 app.use("/", hdfcRoute);
 
 const PORT = process.env.PORT;
