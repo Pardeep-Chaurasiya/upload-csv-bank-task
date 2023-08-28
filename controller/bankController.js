@@ -38,6 +38,7 @@ const icici = async (req, res) => {
     csv()
       .fromFile(req.file.path)
       .then(async (response) => {
+        console.log(response);
         for (let i = 0; i < response.length; i++) {
           bankDetails.push({
             No: response[i].No,
