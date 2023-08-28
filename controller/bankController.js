@@ -2,6 +2,31 @@ const HdfcModel = require("../model/hdfcSchema");
 const IciciModel = require("../model/iciciSchema");
 const csv = require("csvtojson");
 
+const login = (req, res) => {
+  const userName = "pardeep";
+  const password = "12345";
+  const { name, pass } = req.body;
+
+  try {
+    if (!name || !pass) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Please fill all feilds" });
+    }
+    if (userName !== name || password !== pass) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid username or password" });
+    }
+    return res
+      .status(200)
+      .json({ success: true, message: "Login successfully" });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 const hdfc = async (req, res) => {
   try {
     let bankDetails = [];
@@ -38,7 +63,6 @@ const icici = async (req, res) => {
     csv()
       .fromFile(req.file.path)
       .then(async (response) => {
-        console.log(response);
         for (let i = 0; i < response.length; i++) {
           bankDetails.push({
             No: response[i].No,
@@ -64,4 +88,4 @@ const icici = async (req, res) => {
     return res.status(400).json({ success: false, message: error.message });
   }
 };
-module.exports = { hdfc, icici };
+module.exports = { hdfc, icici, login };
